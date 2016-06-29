@@ -9,11 +9,12 @@ import java.util.concurrent.RunnableFuture;
  * Created by User on 27.06.2016.
  */
 public class Main {
+    private static DBCollection shopsCollection;
 
     public static void main(String[] args) {
         List<Shop> shops = new ArrayList<>();
         DataBaseConnection connection = new DataBaseConnection("localhost", 27017, "ShopsDB");
-        DBCollection shopsCollection = connection.Db.getCollection("ShopsCollection");
+        shopsCollection = connection.Db.getCollection("ShopsCollection");
         ShopFactory factory = new ShopFactory();
         DBCursor Docs = shopsCollection.find();
         try {
@@ -37,12 +38,8 @@ public class Main {
         Thread amazonThread = new AmazonThread(shops.get(0));
         amazonThread.start();
 
-        Thread walmartThread = new WalmartThread(shops.get(0));
+        Thread walmartThread = new WalmartThread(shops.get(1));
         walmartThread.start();
-
-        shops.get(0).AddProductToCat(shopsCollection, new Product("Notebook", 30.7, 0, "available"), "Furniture");
-        System.out.println("hello");
-
     }
 
     private static class AmazonThread extends Thread {
@@ -53,7 +50,7 @@ public class Main {
 
         @Override
         public void run(){
-
+            AmazonShop.AddProductToCat(shopsCollection, new Product("Notebook", 30.7, 0, "available"), "Furniture");
         }
     }
 
@@ -65,11 +62,11 @@ public class Main {
 
         @Override
         public void run(){
-
+            WalmartThread.AddProductToCat(shopsCollection, new Product("Notebook", 30.7, 0, "available"), "Furniture");
         }
     }
 
-    public static ArrayList<Category> DbArrToCategoryArr(ArrayList<BasicDBObject> categories){
+    private static ArrayList<Category> DbArrToCategoryArr(ArrayList<BasicDBObject> categories){
         ArrayList<Category> result = new ArrayList<>();
         for(BasicDBObject currCat: categories)
         {
@@ -84,7 +81,7 @@ public class Main {
         return result;
     }
 
-    public static ArrayList<String> DbArrToAPIArr(ArrayList<BasicDBObject> categories){
+    private static ArrayList<String> DbArrToAPIArr(ArrayList<BasicDBObject> categories){
         ArrayList<String> result = new ArrayList<>();
         for(BasicDBObject currCat: categories)
         {
@@ -95,7 +92,7 @@ public class Main {
         return result;
     }
 
-    public static ArrayList<Product> DbArrToProductArr(ArrayList<BasicDBObject> categories){
+    private static ArrayList<Product> DbArrToProductArr(ArrayList<BasicDBObject> categories){
         ArrayList<Product> result = new ArrayList<>();
         for(BasicDBObject currCat: categories)
         {
