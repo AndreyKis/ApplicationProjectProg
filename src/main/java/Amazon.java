@@ -26,25 +26,8 @@ public final class Amazon extends Shop {
         return instance;
     }
 
-    @Override
+    /*@Override
     public void AddProductToCat(DBCollection collection, Product productToAdd, String catName){
-        Category category = getCatByName(catName);
-        if (category != null)
-        {
-            BasicDBObject selectQuery = new BasicDBObject("categories.name", catName);
-            selectQuery.put("categories.products.name", "Notebook");
-            BasicDBObject updateQuery = new BasicDBObject("$push", selectQuery);
-            collection.update(selectQuery, updateQuery);
 
-        }
-    }
-
-    public Category getCatByName(String catName){
-        for(Category item : Categories)
-        {
-            if(item.getName().equals(catName))
-                return item;
-        }
-        return null;
-    }
+    }*/
 }

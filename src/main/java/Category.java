@@ -6,13 +6,13 @@ import java.util.List;
  */
 public class Category {
     private String Name;
-    private int Discounts;
+    private double Discounts;
     private List<Product> Products;
 
     public Category() {
     }
 
-    public Category(String name, int discounts, ArrayList<Product> products) {
+    public Category(String name, double discounts, ArrayList<Product> products) {
         Name = name;
         Discounts = discounts;
         Products = products;
@@ -22,7 +22,7 @@ public class Category {
         return Name;
     }
 
-    public int getDiscounts() {
+    public double getDiscounts() {
         return Discounts;
     }
 

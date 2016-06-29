@@ -1,5 +1,7 @@
+import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
+import org.bson.Document;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,5 +18,42 @@ public abstract class Shop {
     protected List<String> APIs;
     //Shop document from DB. Did not invent a way to separate DB from program instances because of Singleton pattern for these instances
 
-    public abstract void AddProductToCat(DBCollection collection, Product product, String catName);
+
+    public String getName() {
+        return Name;
+    }
+
+    public List<Category> getCategories() {
+        return Categories;
+    }
+
+    public List<String> getAPIs() {
+        return APIs;
+    }
+
+    public void AddProductToCat(DBCollection collection, Product product, String catName) {
+        if(this.getCategories().contains(catName)) {
+            BasicDBObject selectQuery = new BasicDBObject("Name", this.Name);
+            selectQuery.append("Categories.Name", catName);
+
+            BasicDBObject updateQuery = new BasicDBObject();//"$push", selectQuery);
+            BasicDBObject dboToAdd = new BasicDBObject();
+            dboToAdd.append("Title", product.getTitle());
+            dboToAdd.append("Price", product.getPrice());
+            dboToAdd.append("Status", product.getStatus());
+            dboToAdd.append("Discount", product.getDiscount());
+
+            updateQuery.append("$push", dboToAdd);
+
+            collection.update(selectQuery, updateQuery);
+        }
+        else
+        {
+            try{
+                //add category here
+            }catch(Exception e){
+                System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            }
+        }
+    }
 }

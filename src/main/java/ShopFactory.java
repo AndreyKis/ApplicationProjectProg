@@ -20,7 +20,7 @@ public class ShopFactory {
     private class WalmartCreator extends AbstractCreator {
         @Override
         public Shop create(String name, List<Category> categories, List<String> APIs) {
-            return Walmart.getInstance();
+            return Walmart.getInstance(name, categories, APIs);
         }
     }
 
