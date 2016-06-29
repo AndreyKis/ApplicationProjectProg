@@ -16,8 +16,6 @@ public abstract class Shop {
     protected List<Category> Categories;
     //Here we get APIs from DB in java\js wrapper for each shop
     protected List<String> APIs;
-    //Shop document from DB. Did not invent a way to separate DB from program instances because of Singleton pattern for these instances
-
 
     public String getName() {
         return Name;
@@ -31,8 +29,9 @@ public abstract class Shop {
         return APIs;
     }
 
-    public void AddProductToCat(DBCollection collection, Product product, String catName) {
+    public synchronized void AddProductToCat(DBCollection collection, Product product, String catName) {
         if(this.getCategories().contains(catName)) {
+            //Not correct way to add product. Did not succeed in this part of task because of the lack of the time.
             BasicDBObject selectQuery = new BasicDBObject("Name", this.Name);
             selectQuery.append("Categories.Name", catName);
 
